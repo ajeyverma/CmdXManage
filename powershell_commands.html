@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PowerShell Commands List</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.6;
+      padding: 0 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #0078d7;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    section.command {
+      background: #fff;
+      border-radius: 6px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    section.command:hover {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+    h2 {
+      margin: 0 0 8px 0;
+      color: #004a9f;
+      font-size: 1.2rem;
+      font-weight: 600;
+      word-break: break-all;
+    }
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: #555;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>PowerShell Commands List</h1>
+
+  <section class="command">
+    <h2>Get-ChildItem -Force @args</h2>
+    <p>Lists all files and folders including hidden ones.</p>
+  </section>
+
+  <section class="command">
+    <h2>Set-Location &lt;path&gt;</h2>
+    <p>Changes current directory to &lt;path&gt;.</p>
+  </section>
+
+  <section class="command">
+    <h2>Set-Location $env:USERPROFILE&lt;path&gt;</h2>
+    <p>Changes directory to a folder inside user profile.</p>
+  </section>
+
+  <section class="command">
+    <h2>Set-Location @args</h2>
+    <p>Change your directory (like cd).</p>
+  </section>
+
+  <section class="command">
+    <h2>Clear-Host</h2>
+    <p>Clears the console screen.</p>
+  </section>
+
+  <section class="command">
+    <h2>New-Item -ItemType Directory -Path &lt;folderName&gt;</h2>
+    <p>Creates a new directory.</p>
+  </section>
+
+  <section class="command">
+    <h2>New-Item -ItemType Directory $args</h2>
+    <p>Creates a new directory (like mkdir).</p>
+  </section>
+
+  <section class="command">
+    <h2>Remove-Item @args</h2>
+    <p>Deletes files or folders.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-Content @args</h2>
+    <p>Shows the content of a file.</p>
+  </section>
+
+  <section class="command">
+    <h2>&amp; 'full_path_to_executable' @args</h2>
+    <p>Runs an external program or executable (e.g., launching VS Code).</p>
+  </section>
+
+  <section class="command">
+    <h2>Copy-Item @args</h2>
+    <p>Copies files or folders.</p>
+  </section>
+
+  <section class="command">
+    <h2>Move-Item @args</h2>
+    <p>Moves or renames files or folders.</p>
+  </section>
+
+  <section class="command">
+    <h2>Rename-Item -Path &lt;old&gt; -NewName &lt;new&gt;</h2>
+    <p>Renames a file or folder.</p>
+  </section>
+
+  <section class="command">
+    <h2>Test-Path &lt;path&gt;</h2>
+    <p>Checks if a file or folder exists.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-Process</h2>
+    <p>Lists running processes.</p>
+  </section>
+
+  <section class="command">
+    <h2>Stop-Process -Id &lt;processId&gt;</h2>
+    <p>Stops a running process by its ID.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-Service</h2>
+    <p>Lists Windows services.</p>
+  </section>
+
+  <section class="command">
+    <h2>Start-Service -Name &lt;serviceName&gt;</h2>
+    <p>Starts a Windows service.</p>
+  </section>
+
+  <section class="command">
+    <h2>Stop-Service -Name &lt;serviceName&gt;</h2>
+    <p>Stops a Windows service.</p>
+  </section>
+
+  <section class="command">
+    <h2>Restart-Service -Name &lt;serviceName&gt;</h2>
+    <p>Restarts a Windows service.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-EventLog -LogName &lt;logname&gt;</h2>
+    <p>Views event logs.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-Alias</h2>
+    <p>Lists all aliases.</p>
+  </section>
+
+  <section class="command">
+    <h2>Set-Alias &lt;aliasName&gt; &lt;cmdlet&gt;</h2>
+    <p>Creates a new alias.</p>
+  </section>
+
+  <section class="command">
+    <h2>Remove-Item -Path alias:&lt;aliasName&gt;</h2>
+    <p>Removes an alias.</p>
+  </section>
+
+  <section class="command">
+    <h2>Write-Host &lt;text&gt;</h2>
+    <p>Prints text to the console.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-Help &lt;cmdlet&gt;</h2>
+    <p>Shows help for a cmdlet.</p>
+  </section>
+
+  <section class="command">
+    <h2>Import-Module &lt;moduleName&gt;</h2>
+    <p>Loads a PowerShell module.</p>
+  </section>
+
+  <section class="command">
+    <h2>Export-Csv -Path &lt;file.csv&gt;</h2>
+    <p>Exports data to CSV file.</p>
+  </section>
+
+  <section class="command">
+    <h2>Import-Csv -Path &lt;file.csv&gt;</h2>
+    <p>Imports data from CSV file.</p>
+  </section>
+
+  <section class="command">
+    <h2>Measure-Object</h2>
+    <p>Measures properties of objects (count, sum, avg).</p>
+  </section>
+
+  <section class="command">
+    <h2>Select-Object</h2>
+    <p>Selects properties of objects.</p>
+  </section>
+
+  <section class="command">
+    <h2>Where-Object</h2>
+    <p>Filters objects based on condition.</p>
+  </section>
+
+  <section class="command">
+    <h2>Sort-Object</h2>
+    <p>Sorts objects by property.</p>
+  </section>
+
+  <section class="command">
+    <h2>Out-File -FilePath &lt;file.txt&gt;</h2>
+    <p>Sends output to a file.</p>
+  </section>
+
+  <section class="command">
+    <h2>Start-Job -ScriptBlock &#123; &#125;</h2>
+    <p>Runs a background job.</p>
+  </section>
+
+  <section class="command">
+    <h2>Receive-Job -Id &lt;jobId&gt;</h2>
+    <p>Retrieves job results.</p>
+  </section>
+
+  <section class="command">
+    <h2>Wait-Job -Id &lt;jobId&gt;</h2>
+    <p>Waits for a job to complete.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-Job</h2>
+    <p>Lists background jobs.</p>
+  </section>
+
+  <section class="command">
+    <h2>Stop-Job -Id &lt;jobId&gt;</h2>
+    <p>Stops a background job.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-History</h2>
+    <p>Shows command history.</p>
+  </section>
+
+  <section class="command">
+    <h2>Invoke-History -Id &lt;historyId&gt;</h2>
+    <p>Runs a command from history.</p>
+  </section>
+
+  <section class="command">
+    <h2>New-ItemProperty -Path &lt;regPath&gt; -Name &lt;propName&gt; -Value &lt;value&gt;</h2>
+    <p>Creates or sets registry property.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-ItemProperty -Path &lt;regPath&gt;</h2>
+    <p>Gets registry property.</p>
+  </section>
+
+  <section class="command">
+    <h2>Remove-ItemProperty -Path &lt;regPath&gt; -Name &lt;propName&gt;</h2>
+    <p>Removes registry property.</p>
+  </section>
+
+  <section class="command">
+    <h2>Clear-Variable -Name &lt;varName&gt;</h2>
+    <p>Clears a variable.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-Variable</h2>
+    <p>Lists variables.</p>
+  </section>
+
+  <section class="command">
+    <h2>Set-Variable -Name &lt;varName&gt; -Value &lt;value&gt;</h2>
+    <p>Sets variable value.</p>
+  </section>
+
+  <section class="command">
+    <h2>Read-Host -Prompt 'text'</h2>
+    <p>Prompts user for input.</p>
+  </section>
+
+  <section class="command">
+    <h2>Test-Connection &lt;hostname&gt;</h2>
+    <p>Sends ping requests to test network.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-NetIPAddress</h2>
+    <p>Displays IP configuration.</p>
+  </section>
+
+  <section class="command">
+    <h2>New-Guid</h2>
+    <p>Generates a new GUID.</p>
+  </section>
+
+  <section class="command">
+    <h2>Start-Process &lt;program&gt;</h2>
+    <p>Starts a process/application.</p>
+  </section>
+
+  <section class="command">
+    <h2>Get-Location</h2>
+    <p>Shows current directory.</p>
+  </section>
+
+  <section class="command">
+    <h2>Push-Location &lt;path&gt;</h2>
+    <p>Saves current directory and changes to new path.</p>
+  </section>
+
+  <section class="command">
+    <h2>Pop-Location</h2>
+    <p>Returns to previous directory saved by Push-Location.</p>
+  </section>
+
+  <footer>
+    &copy; 2025 PowerShell Commands Reference
+  </footer>
+
+</body>
+</html>
