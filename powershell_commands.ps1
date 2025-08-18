@@ -1,5 +1,5 @@
 # ==========================
-# Self-Updating PowerShell Script
+# Self-Updating PowerShell Script (Same Window)
 # ==========================
 
 # GitHub raw link (replace with your repo link)
@@ -24,9 +24,9 @@ if ($Online) {
         if ($remoteContent -ne $localContent) {
             Write-Host "⬆️ Update found. Downloading new version..."
             $remoteContent | Out-File $localScript -Encoding UTF8
-            Write-Host "✅ Update applied. Restarting script..."
-            Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -NoExit -File `"$localScript`""
-            exit
+            Write-Host "✅ Update applied. Reloading script..."
+            . $localScript   # <── re-import script in same window
+            return           # stop here, because reloaded script continues
         }
         else {
             Write-Host "✅ Already up to date. Running local copy..."
@@ -103,4 +103,5 @@ function CommandsList {
 
 # Run default function if we reach here (offline or update failed)
 & $FuncName
+
 
