@@ -16,20 +16,29 @@ $Online = Test-Connection github.com -Count 1 -Quiet -ErrorAction SilentlyContin
 
 if ($Online) {
     try {
-        Write-Host "🌍 Internet available. Updating powershell_commands.ps1 from GitHub..."
-        Invoke-WebRequest -Uri $githubUrl -OutFile $localScript -UseBasicParsing
-        Write-Host "✅ Update complete. Launching new window with updated script..."
-        Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { . '$localScript'; $FuncName }"
-        exit
+        Write-Host "🌍 Internet available. Checking for update..."
+        $remote = Invoke-WebRequest -Uri $githubUrl -UseBasicParsing
+        $remoteContent = $remote.Content -join "`n"
+        $localContent  = Get-Content $localScript -Raw
+
+        if ($remoteContent -ne $localContent) {
+            Write-Host "⬆️ Update found. Downloading new version..."
+            $remoteContent | Out-File $localScript -Encoding UTF8
+            Write-Host "✅ Update applied. Restarting script..."
+            Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -NoExit -File `"$localScript`""
+            exit
+        }
+        else {
+            Write-Host "✅ Already up to date. Running local copy..."
+        }
     }
     catch {
-        Write-Host "⚠️ Failed to update from GitHub. Using local copy..."
+        Write-Host "⚠️ Failed to check/update from GitHub. Using local copy..."
     }
 }
 else {
     Write-Host "⚠️ No internet connection. Using local copy..."
 }
-
 # ==========================
 # Functions Section
 # ==========================
@@ -94,3 +103,4 @@ function CommandsList {
 
 # Run default function if we reach here (offline or update failed)
 & $FuncName
+
