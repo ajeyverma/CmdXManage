@@ -1,44 +1,39 @@
-﻿Update-AndRun
-CommandsList
-function Update-AndRun {
-    param(
-        [string]$FuncName = "CommandsList"  # default function to run
-    )
+# ==========================
+# Self-Updating PowerShell Script
+# ==========================
 
-    # GitHub raw link (replace with your repo link)
-    $githubUrl = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/main/powershell_commands.ps1"
+# GitHub raw link (replace with your repo link)
+$githubUrl = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/main/powershell_commands.ps1"
 
-    # Local path to THIS script
-    $localScript = $MyInvocation.MyCommand.Path
+# Local path to THIS script
+$localScript = $MyInvocation.MyCommand.Path
 
-    # Check internet connection
-    $Online = Test-Connection github.com -Count 1 -Quiet -ErrorAction SilentlyContinue
+# Default function to run
+$FuncName = "CommandsList"
 
-    if ($Online) {
-        try {
-            Write-Host "🌍 Internet available. Updating powershell_commands.ps1 from GitHub..."
-            Invoke-WebRequest -Uri $githubUrl -OutFile $localScript -UseBasicParsing
-            Write-Host "✅ Update complete. Launching new window with updated script..."
+# Check internet connection
+$Online = Test-Connection github.com -Count 1 -Quiet -ErrorAction SilentlyContinue
 
-            # Launch new PowerShell window with updated script + function
-            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { . '$localScript'; $FuncName }"
-            return
-        }
-        catch {
-            Write-Host "⚠️ Failed to update from GitHub. Using local copy..."
-        }
+if ($Online) {
+    try {
+        Write-Host "🌍 Internet available. Updating powershell_commands.ps1 from GitHub..."
+        Invoke-WebRequest -Uri $githubUrl -OutFile $localScript -UseBasicParsing
+        Write-Host "✅ Update complete. Launching new window with updated script..."
+        Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { . '$localScript'; $FuncName }"
+        exit
     }
-    else {
-        Write-Host "⚠️ No internet connection. Using local copy..."
+    catch {
+        Write-Host "⚠️ Failed to update from GitHub. Using local copy..."
     }
-
-    # If update skipped or failed → just run function in same window
-    & $FuncName
+}
+else {
+    Write-Host "⚠️ No internet connection. Using local copy..."
 }
 
-# ======================
-# Your CommandsList function
-# ======================
+# ==========================
+# Functions Section
+# ==========================
+
 function CommandsList {
     Write-Host "Get-ChildItem -Force @args               - Lists all files and folders including hidden ones"
     Write-Host "Set-Location <path>                      - Changes current directory to <path>"
@@ -96,3 +91,6 @@ function CommandsList {
     Write-Host "Push-Location <path>                     - Saves current directory and changes to new path"
     Write-Host "Pop-Location                             - Returns to previous directory saved by Push-Location"
 }
+
+# Run default function if we reach here (offline or update failed)
+& $FuncName
