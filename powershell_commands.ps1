@@ -1,5 +1,5 @@
 # ==========================
-# Self-Updating PowerShell Script (Same Window)
+# Self-Updating PowerShell Script (Same Window, No Infinite Loop)
 # ==========================
 
 # GitHub raw link (replace with your repo link)
@@ -11,34 +11,41 @@ $localScript = $MyInvocation.MyCommand.Path
 # Default function to run
 $FuncName = "CommandsList"
 
-# Check internet connection
-$Online = Test-Connection github.com -Count 1 -Quiet -ErrorAction SilentlyContinue
+# Only run update check if not already reloaded
+if (-not $env:ScriptReloaded) {
+    # Mark as reloaded (for this run)
+    $env:ScriptReloaded = "1"
 
-if ($Online) {
-    try {
-        Write-Host "🌍 Internet available. Checking for update..."
-        $remote = Invoke-WebRequest -Uri $githubUrl -UseBasicParsing
-        $remoteContent = $remote.Content -join "`n"
-        $localContent  = Get-Content $localScript -Raw
+    # Check internet connection
+    $Online = Test-Connection github.com -Count 1 -Quiet -ErrorAction SilentlyContinue
 
-        if ($remoteContent -ne $localContent) {
-            Write-Host "⬆️ Update found. Downloading new version..."
-            $remoteContent | Out-File $localScript -Encoding UTF8
-            Write-Host "✅ Update applied. Reloading script..."
-            . $localScript   # <── re-import script in same window
-            return           # stop here, because reloaded script continues
+    if ($Online) {
+        try {
+            Write-Host "🌍 Internet available. Checking for update..."
+            $remote = Invoke-WebRequest -Uri $githubUrl -UseBasicParsing
+            $remoteContent = $remote.Content -join "`n"
+            $localContent  = Get-Content $localScript -Raw
+
+            if ($remoteContent -ne $localContent) {
+                Write-Host "⬆️ Update found. Downloading new version..."
+                $remoteContent | Out-File $localScript -Encoding UTF8
+                Write-Host "✅ Update applied. Reloading script..."
+                . $localScript   # Reload script in same window
+                return           # Stop current instance
+            }
+            else {
+                Write-Host "✅ Already up to date. Running local copy..."
+            }
         }
-        else {
-            Write-Host "✅ Already up to date. Running local copy..."
+        catch {
+            Write-Host "⚠️ Failed to check/update from GitHub. Using local copy..."
         }
     }
-    catch {
-        Write-Host "⚠️ Failed to check/update from GitHub. Using local copy..."
+    else {
+        Write-Host "⚠️ No internet connection. Using local copy..."
     }
 }
-else {
-    Write-Host "⚠️ No internet connection. Using local copy..."
-}
+
 # ==========================
 # Functions Section
 # ==========================
@@ -103,5 +110,6 @@ function CommandsList {
 
 # Run default function if we reach here (offline or update failed)
 & $FuncName
+
 
 
