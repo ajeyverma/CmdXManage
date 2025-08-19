@@ -3,16 +3,6 @@
 # Description: Manage custom commands (Add, Edit,  Remove) in a $PROFILE.
 
 ##################################################################################################
-function Secure-Command {
-   $expectedHash2 = "261A1470DDFD57CC0BEE06A80B39C89FA5BF5349D0112303FE874BC605BC102F"
-    $funcDef2 = (Get-Command Ensure-ShowHeader-Integrity).Definition
-    $actualHash2 = (Get-FileHash -InputStream ([System.IO.MemoryStream]::new([System.Text.Encoding]::UTF8.GetBytes($funcDef2))) -Algorithm SHA256).Hash
-    if ($actualHash2 -ne $expectedHash2) {
-        SecuFun
-        exit
-        
-    }
-}
 function Show-Menu {
     Clear-Host
 function Show-Header {
@@ -51,7 +41,6 @@ function Show-Header {
 }
 # Call header at the start
 Ensure-ShowHeader-Integrity
-Secure-Command
 Show-Header
     Write-Host "Custom Command Manager" -ForegroundColor Cyan
     Write-Host "1. View Commands"
@@ -1097,6 +1086,7 @@ default {
 
     Pause
 }
+
 
 
 
