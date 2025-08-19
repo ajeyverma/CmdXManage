@@ -1,4 +1,4 @@
-﻿
+
 # File: CmdXManage.ps1
 # Description: Manage custom commands (Add, Edit,  Remove) in a $PROFILE.
 
@@ -12,9 +12,6 @@ function Secure-Command {
         exit
         
     }
-}
-function Save-Commands($commands) {
-    $commands | ConvertTo-Json -Depth 3 | Out-File $CommandFile
 }
 function Show-Menu {
     Clear-Host
@@ -130,12 +127,11 @@ if (Test-Path alias:$funcName) { Remove-Item alias:$funcName -Force }
 # Write-Host "~~No default system command is enabled" -ForegroundColor Green
 }
 # Step 4: Refer user to website for command suggestions
-Write-Host "👉 For a list of function command suggestions, visit:" -ForegroundColor Yellow
-Write-Host "   https://ajeyverma.github.io/CmdXManage/powershell_commands" -ForegroundColor Cyan
-
-# Optional: auto-open in default browser
-Start-Process "https://ajeyverma.github.io/CmdXManage/powershell_commands"
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { . '$PSScriptRoot\powershell_commands.ps1'; CommandsList }"
+Write-Host ""
+Write-Host "👇 Here a list of function command suggestions" -ForegroundColor Yellow
+Write-Host ""
+CommandsList
+write-host ""
 
 
 
@@ -321,13 +317,11 @@ if (Test-Path alias:$newFuncName) { Remove-Item alias:$newfuncName -Force }
 }
         2 {
             # Step 4: Refer user to website for command suggestions
-Write-Host "👉 For a list of function command suggestions, visit:" -ForegroundColor Yellow
-Write-Host "   https://ajeyverma.github.io/CmdXManage/powershell_commands" -ForegroundColor Cyan
-
-# Optional: auto-open in default browser
-Start-Process "https://ajeyverma.github.io/CmdXManage/powershell_commands"
-
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { . '$PSScriptRoot\powershell_commands.ps1'; CommandsList }"
+            Write-Host ""
+            Write-Host "👇 Here a list of function command suggestions" -ForegroundColor Yellow
+            Write-Host ""
+            CommandsList
+            Write-Host ""
 
             # Edit function command(s)
             $newFuncBody = Read-Host "Enter new command(s) for function '$funcName'"
@@ -361,7 +355,7 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { . '$PSScriptR
             for ($i = $endIndex + 1; $i -lt $profileLines.Length; $i++) {
                 $newProfileLines += $profileLines[$i]
             }
-            . $PROFILE
+            
             try {
                 $newProfileLines | Set-Content $PROFILE
                 Write-Host "Function '$funcName' updated successfully." -ForegroundColor Green
@@ -451,6 +445,88 @@ Write-Host "Removed disabled alias and also their function: $aliasName" -Foregro
 # Save changes if any were made
 Set-Content $PROFILE $profileContent
 }
+
+function CommandsList {
+    $commands = @(
+        @{Cmd="Get-ChildItem -Force @args"; Desc="Lists all files and folders including hidden ones"},
+        @{Cmd="Set-Location <path>"; Desc="Changes current directory to <path>"},
+        @{Cmd="Set-Location $env:USERPROFILE\<path>"; Desc="Changes directory to a folder inside user profile"},
+        @{Cmd="Set-Location @args"; Desc="Change your directory (like cd)"},
+        @{Cmd="Clear-Host"; Desc="Clears the console screen"},
+        @{Cmd="New-Item -ItemType Directory -Path <folderName>"; Desc="Creates a new directory"},
+        @{Cmd="New-Item -ItemType Directory $args"; Desc="Creates a new directory (like mkdir)"},
+        @{Cmd="Remove-Item @args"; Desc="Deletes files or folders"},
+        @{Cmd="Get-Content @args"; Desc="Shows the content of a file"},
+        @{Cmd="& 'full_path_to_executable' @args"; Desc="Runs an external program or executable"},
+        @{Cmd="Copy-Item @args"; Desc="Copies files or folders"},
+        @{Cmd="Move-Item @args"; Desc="Moves or renames files or folders"},
+        @{Cmd="Rename-Item -Path <old> -NewName <new>"; Desc="Renames a file or folder"},
+        @{Cmd="Test-Path <path>"; Desc="Checks if a file or folder exists"},
+        @{Cmd="Get-Process"; Desc="Lists running processes"},
+        @{Cmd="Stop-Process -Id <processId>"; Desc="Stops a running process by its ID"},
+        @{Cmd="Get-Service"; Desc="Lists Windows services"},
+        @{Cmd="Start-Service -Name <serviceName>"; Desc="Starts a Windows service"},
+        @{Cmd="Stop-Service -Name <serviceName>"; Desc="Stops a Windows service"},
+        @{Cmd="Restart-Service -Name <serviceName>"; Desc="Restarts a Windows service"},
+        @{Cmd="Get-EventLog -LogName <logname>"; Desc="Views event logs"},
+        @{Cmd="Get-Alias"; Desc="Lists all aliases"},
+        @{Cmd="Set-Alias <aliasName> <cmdlet>"; Desc="Creates a new alias"},
+        @{Cmd="Remove-Item -Path alias:<aliasName>"; Desc="Removes an alias"},
+        @{Cmd="Write-Host <text>"; Desc="Prints text to the console"},
+        @{Cmd="Get-Help <cmdlet>"; Desc="Shows help for a cmdlet"},
+        @{Cmd="Import-Module <moduleName>"; Desc="Loads a PowerShell module"},
+        @{Cmd="Export-Csv -Path <file.csv>"; Desc="Exports data to CSV file"},
+        @{Cmd="Import-Csv -Path <file.csv>"; Desc="Imports data from CSV file"},
+        @{Cmd="Measure-Object"; Desc="Measures properties of objects"},
+        @{Cmd="Select-Object"; Desc="Selects properties of objects"},
+        @{Cmd="Where-Object"; Desc="Filters objects based on condition"},
+        @{Cmd="Sort-Object"; Desc="Sorts objects by property"},
+        @{Cmd="Out-File -FilePath <file.txt>"; Desc="Sends output to a file"},
+        @{Cmd="Start-Job -ScriptBlock { }"; Desc="Runs a background job"},
+        @{Cmd="Receive-Job -Id <jobId>"; Desc="Retrieves job results"},
+        @{Cmd="Wait-Job -Id <jobId>"; Desc="Waits for a job to complete"},
+        @{Cmd="Get-Job"; Desc="Lists background jobs"},
+        @{Cmd="Stop-Job -Id <jobId>"; Desc="Stops a background job"},
+        @{Cmd="Get-History"; Desc="Shows command history"},
+        @{Cmd="Invoke-History -Id <historyId>"; Desc="Runs a command from history"},
+        @{Cmd="New-ItemProperty -Path <regPath> -Name <propName> -Value <value>"; Desc="Creates or sets registry property"},
+        @{Cmd="Get-ItemProperty -Path <regPath>"; Desc="Gets registry property"},
+        @{Cmd="Remove-ItemProperty -Path <regPath> -Name <propName>"; Desc="Removes registry property"},
+        @{Cmd="Clear-Variable -Name <varName>"; Desc="Clears a variable"},
+        @{Cmd="Get-Variable"; Desc="Lists variables"},
+        @{Cmd="Set-Variable -Name <varName> -Value <value>"; Desc="Sets variable value"},
+        @{Cmd="Read-Host -Prompt 'text'"; Desc="Prompts user for input"},
+        @{Cmd="Test-Connection <hostname>"; Desc="Sends ping requests to test network"},
+        @{Cmd="Get-NetIPAddress"; Desc="Displays IP configuration"},
+        @{Cmd="New-Guid"; Desc="Generates a new GUID"},
+        @{Cmd="Start-Process <program>"; Desc="Starts a process/application"},
+        @{Cmd="Get-Location"; Desc="Shows current directory"},
+        @{Cmd="Push-Location <path>"; Desc="Saves current directory and changes to new path"},
+        @{Cmd="Pop-Location"; Desc="Returns to previous directory saved by Push-Location"}
+    )
+
+    # Find the longest command for alignment
+    $maxLen = ($commands | ForEach-Object { $_.Cmd.Length } | Measure-Object -Maximum).Maximum + 4
+
+    foreach ($c in $commands) {
+        # Split the command into main + args
+        $parts = $c.Cmd -split " ", 2
+        $main = $parts[0]
+        $args = if ($parts.Count -gt 1) { " " + $parts[1] } else { "" }
+
+        # Combine for alignment (length of full command, not just main)
+        $fullCmd = $main + $args
+        $padding = " " * ($maxLen - $fullCmd.Length)
+
+        # Print in colors
+        Write-Host $main -ForegroundColor Yellow -NoNewline
+        Write-Host $args -ForegroundColor Cyan -NoNewline
+        Write-Host $padding -NoNewline
+        Write-Host "- $($c.Desc)" -ForegroundColor White
+
+    }
+}
+
 function Remove-FunctionBlockFromLines {
     param (
         [string[]]$Lines,
@@ -751,7 +827,7 @@ DisabledFunction
  			
     
 }
-fuction update {
+function update {
     # GitHub raw link (replace with your repo link)
 $githubUrl = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/main/powershell.ps1"
 
