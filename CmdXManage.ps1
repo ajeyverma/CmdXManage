@@ -793,8 +793,8 @@ function Show-SettingsMenu {
 # Write-Host "4. Disabled System Commands (Aliases)" -ForegroundColor cyan
         Write-Host "0. Exit"
         Write-Host ""
-        Write-Host "If you want manage aliasremoval then type 'AliasManage' in Main Menu or choose 4 Here." -ForegroundColor yellow
-        $choice = Read-Host "Enter your choice (0-3)"
+        Write-Host "If you want manage aliasremoval then type 'AliasManage' in Main Menu or choose 5 Here." -ForegroundColor yellow
+        $choice = Read-Host "Enter your choice (0-5)"
 
         switch ($choice) {
             '1' {
@@ -1097,4 +1097,5 @@ default {
 
     Pause
 }
+
 
