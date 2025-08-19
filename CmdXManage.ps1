@@ -683,12 +683,11 @@ function SecuFun {
         Write-Host "~~This script will not run if the header is edited." -ForegroundColor Yellow
         Write-Host "~~Please restore the original header to continue." -ForegroundColor Yellow
         Write-Host "~~Exiting for your script reliability." -ForegroundColor red
-		write host $actualHash
         Exit
 }
 #________________________________________________________________________________________________________
 function Ensure-ShowHeader-Integrity {
-    $expectedHash = "321CB4E1A50A99CFDDE887852E61DA177A1E175E8E5BB0E6FBD5D1B834C4D409"
+    $expectedHash = "58E99498F65B3E4E25F9DFED70CF7EB332B05F4C4F0024E9FC7862963D5291F0"
     $funcDef = (Get-Command Show-Header).Definition
     $actualHash = (Get-FileHash -InputStream ([System.IO.MemoryStream]::new([System.Text.Encoding]::UTF8.GetBytes($funcDef))) -Algorithm SHA256).Hash
     if ($actualHash -ne $expectedHash) {
@@ -1085,6 +1084,7 @@ default {
 
     Pause
 }
+
 
 
 
