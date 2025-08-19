@@ -1,8 +1,6 @@
-# check update working or not
 # File: CmdXManage.ps1
 # Description: Manage custom commands (Add, Edit,  Remove) in a $PROFILE.
 
-##################################################################################################
 function Show-Menu {
     Clear-Host
 function Show-Header {
@@ -685,6 +683,7 @@ function SecuFun {
         Write-Host "~~This script will not run if the header is edited." -ForegroundColor Yellow
         Write-Host "~~Please restore the original header to continue." -ForegroundColor Yellow
         Write-Host "~~Exiting for your script reliability." -ForegroundColor red
+		write host $actualHash
         Exit
 }
 #________________________________________________________________________________________________________
@@ -1086,6 +1085,7 @@ default {
 
     Pause
 }
+
 
 
 
