@@ -830,7 +830,7 @@ DisabledFunction
 }
 function update {
     # GitHub raw link (replace with your repo link)
-$githubUrl   = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/main/CmdXManage.ps1"
+$githubUrl   = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/refs/heads/main/CmdXManage.ps1"
 $localScript = $MyInvocation.MyCommand.Path
 if (-not $localScript) {
     $localScript = "$PSScriptRoot\CmdXManage.ps1"
@@ -1097,5 +1097,6 @@ default {
 
     Pause
 }
+
 
 
