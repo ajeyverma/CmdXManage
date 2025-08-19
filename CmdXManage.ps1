@@ -789,12 +789,12 @@ function Show-SettingsMenu {
         Write-Host "1. Export functions"
         Write-Host "2. Import functions"
         Write-Host "3. Delete All Commands" -ForegroundColor Red
-		Write-Host "4. Update Script" -ForegroundColor Yellow
+        Write-Host "4. Update Script" -ForegroundColor Yellow
 # Write-Host "4. Disabled System Commands (Aliases)" -ForegroundColor cyan
         Write-Host "0. Exit"
         Write-Host ""
-        Write-Host "If you want manage aliasremoval then type 'AliasManage' in Main Menu or choose 5 Here." -ForegroundColor yellow
-        $choice = Read-Host "Enter your choice (0-5)"
+        Write-Host "If you want manage aliasremoval then type 'AliasManage' in Main Menu or choose 4 Here." -ForegroundColor yellow
+        $choice = Read-Host "Enter your choice (0-3)"
 
         switch ($choice) {
             '1' {
@@ -830,47 +830,39 @@ DisabledFunction
 }
 function update {
     # GitHub raw link (replace with your repo link)
-$githubUrl = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/main/CmdXManage.ps1"
-
-# Local path to THIS script
+$githubUrl   = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/main/CmdXManage.ps1"
 $localScript = $MyInvocation.MyCommand.Path
-
-# Only run update check if not already reloaded
+if (-not $localScript) {
+    $localScript = "$PSScriptRoot\CmdXManage.ps1"
+}
 if (-not $env:ScriptReloaded) {
-    # Mark as reloaded (for this run)
     $env:ScriptReloaded = "1"
 
-    # Check internet connection
-    $Online = Test-Connection github.com -Count 1 -Quiet -ErrorAction SilentlyContinue
+    try {
+        Write-Host "🌍 Checking GitHub for updates..."
+        $remoteContent = (Invoke-RestMethod -Uri $githubUrl)
 
-    if ($Online) {
-        try {
-            Write-Host "🌍 Internet available. Checking for update..."
-            $remote = Invoke-WebRequest -Uri $githubUrl -UseBasicParsing
-            $remoteContent = $remote.Content -join "`n"
-            $localContent  = Get-Content $localScript -Raw
+        # Normalize line endings + remove BOM for fair compare
+        $remoteContent = $remoteContent -replace "`r",""
+        $localContent  = (Get-Content $localScript -Raw -Encoding UTF8) -replace "`r",""
 
-            if ($remoteContent -ne $localContent) {
-                Write-Host "⬆️ Update found. Downloading new version..."
-                $remoteContent | Out-File $localScript -Encoding UTF8
-                Write-Host "✅ Update applied. Reloading script..."
-                . $localScript   # Reload script in same window
-                return           # Stop current instance
-            }
-            else {
-                Write-Host "✅ Already up to date. Running local copy..."
-            }
+        if ($remoteContent -ne $localContent) {
+            Write-Host "⬆️ Update found. Applying..."
+            # Use Set-Content (no BOM) instead of Out-File
+            $remoteContent | Set-Content $localScript -Encoding UTF8
+            Write-Host "✅ Script updated. Reloading..."
+            . $localScript
+            return
         }
-        catch {
-            Write-Host "⚠️ Failed to check/update from GitHub. Using local copy..."
-            
+        else {
+            Write-Host "✅ Script already up to date."
         }
     }
-    else {
-        Write-Host "⚠️ No internet connection. Using local copy..."
-        
+    catch {
+        Write-Host "⚠️ Update check failed: $_"
     }
 }
+
 }
 
 	#======delete all function=====
@@ -1105,5 +1097,3 @@ default {
 
     Pause
 }
-
-
