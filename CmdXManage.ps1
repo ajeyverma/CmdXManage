@@ -4,10 +4,10 @@
 
 ##################################################################################################
 function Secure-Command {
-   $expectedHash = "2AE1EF91C80C26E77201214346C2A2881BC2DFB3AE1FD93FE7F9DCD483C98599"
-    $funcDef = (Get-Command Ensure-ShowHeader-Integrity).Definition
-    $actualHash = (Get-FileHash -InputStream ([System.IO.MemoryStream]::new([System.Text.Encoding]::UTF8.GetBytes($funcDef))) -Algorithm SHA256).Hash
-    if ($actualHash -ne $expectedHash) {
+   $expectedHash2 = "261A1470DDFD57CC0BEE06A80B39C89FA5BF5349D0112303FE874BC605BC102F"
+    $funcDef2 = (Get-Command Ensure-ShowHeader-Integrity).Definition
+    $actualHash2 = (Get-FileHash -InputStream ([System.IO.MemoryStream]::new([System.Text.Encoding]::UTF8.GetBytes($funcDef2))) -Algorithm SHA256).Hash
+    if ($actualHash2 -ne $expectedHash2) {
         SecuFun
         exit
         
@@ -700,7 +700,7 @@ function SecuFun {
 }
 #________________________________________________________________________________________________________
 function Ensure-ShowHeader-Integrity {
-    $expectedHash = "58E99498F65B3E4E25F9DFED70CF7EB332B05F4C4F0024E9FC7862963D5291F0"
+    $expectedHash = "321CB4E1A50A99CFDDE887852E61DA177A1E175E8E5BB0E6FBD5D1B834C4D409"
     $funcDef = (Get-Command Show-Header).Definition
     $actualHash = (Get-FileHash -InputStream ([System.IO.MemoryStream]::new([System.Text.Encoding]::UTF8.GetBytes($funcDef))) -Algorithm SHA256).Hash
     if ($actualHash -ne $expectedHash) {
@@ -1097,3 +1097,4 @@ default {
 
     Pause
 }
+
