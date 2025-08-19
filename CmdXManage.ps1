@@ -830,7 +830,7 @@ DisabledFunction
 }
 function update {
     # GitHub raw link (replace with your repo link)
-$githubUrl = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/main/powershell.ps1"
+$githubUrl = "https://raw.githubusercontent.com/ajeyverma/CmdXManage/main/CmdXManage.ps1"
 
 # Local path to THIS script
 $localScript = $MyInvocation.MyCommand.Path
@@ -1105,4 +1105,5 @@ default {
 
     Pause
 }
+
 
