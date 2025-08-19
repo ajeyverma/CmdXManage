@@ -1,4 +1,4 @@
-
+# check update working or not
 # File: CmdXManage.ps1
 # Description: Manage custom commands (Add, Edit,  Remove) in a $PROFILE.
 
@@ -1097,6 +1097,7 @@ default {
 
     Pause
 }
+
 
 
 
