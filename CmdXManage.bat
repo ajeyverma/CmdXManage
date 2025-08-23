@@ -2,7 +2,6 @@
 :: ===================================================
 :: CmdXManage.bat - Custom Command Manager for CMD
 :: Author: Aarush Chaudhary
-:: Version: 1.0 
 :: GitHub: https://github.com/AjeyVerma
 :: ===================================================
 
@@ -443,4 +442,5 @@ goto mainmenu
 :badChars
 echo ERROR: Command name may only contain letters, numbers, underscores (_), or hyphens (-).
 pause
+
 goto mainmenu
