@@ -53,6 +53,9 @@ winget install --id Git.Git -e --source winget
 git clone https://github.com/ajeyverma/CmdXManage.git
 cd CmdXManage
 
+#In case of not run script, run this powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
 # Run the script
 .\CmdXManage.ps1
 ````
