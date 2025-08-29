@@ -182,39 +182,77 @@ goto mainmenu
 
 :edit
 cls
-if not exist "%datafile%" (
-    echo No commands to edit.
-    pause
-    goto mainmenu
+:: Display Number of .bat files in a specific folder
+set "pathToCheck=%folder%"
+set count=0
+
+if exist "%pathToCheck%\*.bat" (
+    for %%f in ("%pathToCheck%\*.bat") do set /a count+=1
 )
-type "%datafile%"
-set /p ename="Enter command name to edit: "
-set "found="
-for /f "tokens=1* delims==" %%a in ('findstr /i "^%ename%=" "%datafile%"') do (
-    set found=1
-    set oldcmd=%%b
-)
-if not defined found (
-    echo Command not found!
-    pause
-    goto mainmenu
-)
-echo Old command: %oldcmd%
-set /p newcmd="Enter new command: "
->temp.txt (
-    for /f "usebackq tokens=1* delims==" %%a in ("%datafile%") do (
-        if /i "%%a"=="%ename%" (
-            echo %%a=%newcmd%
-        ) else (
-            echo %%a=%%b
-        )
+
+echo Found %count% commands files in %pathToCheck%
+:: Display all commands
+set "counter=1"
+setlocal enabledelayedexpansion
+
+if exist "%pathToCheck%\*.bat" (
+    for %%f in ("%pathToCheck%\*.bat") do (
+        echo !counter!. %%~nf
+        set /a counter+=1
     )
+) else (
+    echo (No commands found.)
 )
-move /y temp.txt "%datafile%" >nul
-doskey %ename%=%newcmd%
-echo Command updated!
+
+
+:: === Ask user choice ===
+set "choice="
+set /p "choice=Type the name of command: "
+if "%choice%"=="" goto mainmenu
+if exist "%folder%\%choice%.bat" (
+    echo Command exists!
+) else (
+    echo Command does not exist.
+    pause
+    goto edit
+)
+
+set "filepath=%folder%\%choice%.bat"
+echo You selected: %choice%
+echo.
+
+:menuedit
+echo What do you want to do?
+echo 1. Update Command
+echo 2. Update Command's Function
+set "opt="
+set /p "opt=Enter option: "
+
+if "%opt%"=="1" (
+    set /p "newname=Enter new command: "
+    if "%newname%"=="" goto mainmenu
+    rename "%filepath%" "%newname%.bat"
+    rename "%filepath%" "%newname%.bat"
+    echo File renamed successfully!
+    pause
+    goto mainmenu
+)
+
+if "%opt%"=="2" (
+    set /p "newline=Enter new command's function: "
+    (
+        echo @echo off
+        echo %newline%
+    ) > "%filepath%"
+    echo File content updated!
+    pause
+    goto mainmenu
+)
+
+echo Invalid option.
 pause
 goto mainmenu
+
 
 ::------------------------------------------------------------------------------------------
 
