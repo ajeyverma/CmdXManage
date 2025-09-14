@@ -53,7 +53,7 @@ winget install --id Git.Git -e --source winget
 git clone https://github.com/ajeyverma/CmdXManage.git
 cd CmdXManage
 
-#In case of not run script, run this powershell
+#In case of not run script, Run as Administrator 
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 # Run the script
@@ -142,6 +142,8 @@ chmod +x CmdXManage.sh
 
 - **Windows PowerShell**
 ```powershell
+# Run as Administrator
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 cd <path>\CmdXManage
 .\CmdXManage.ps1
 ```
@@ -160,11 +162,11 @@ chmod +x CmdXManage.sh
 
 You can also download the script file specific to your platform directly:
 
-| Platform               | Script File      | Direct Download Link                                                        |
+| Platform               | Script File      | Download Raw File                                                           |
 | ---------------------- | ---------------- | --------------------------------------------------------------------------- |
-| Windows PowerShell     | `CmdXManage.ps1` | [Download](https://github.com/ajeyverma/CmdXManage/raw/main/CmdXManage.ps1) |
-| Windows CMD            | `CmdXManage.bat` | [Download](https://github.com/ajeyverma/CmdXManage/raw/main/CmdXManage.bat) |
-| Linux / macOS / Termux | `CmdXManage.sh`  | [Download](https://github.com/ajeyverma/CmdXManage/raw/main/CmdXManage.sh)  |
+| Windows PowerShell     | `CmdXManage.ps1` | [Go to the File](https://github.com/ajeyverma/CmdXManage/blob/main/CmdXManage.ps1) |
+| Windows CMD            | `CmdXManage.bat` | [Go to the File](https://github.com/ajeyverma/CmdXManage/blob/main/CmdXManage.bat) |
+| Linux / macOS / Termux | `CmdXManage.sh`  | [Go to the File](https://github.com/ajeyverma/CmdXManage/blob/main/CmdXManage.sh)  |
 
 
 * After downloading, give execute permission (Linux/macOS/Termux) and run:
@@ -172,9 +174,13 @@ You can also download the script file specific to your platform directly:
 chmod +x CmdXManage.sh
 ./CmdXManage.sh
 ```
-* For Windows PowerShell / CMD, just double-click or run in terminal.
-
-
+* For Windows PowerShell, give execute permission and run: 
+```powershell
+# Run as Administrator
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+./CmdXManage.ps1
+```
+* For CMD, just double-click or run in terminal.
 
 ---
 ## ✨ Features
